@@ -1,6 +1,7 @@
 # flutter_e_commerce_app
 
-A new Flutter project.
+A E-commerce app build using Firebase and Bloc State management.
+
 
 ## Getting Started
 
