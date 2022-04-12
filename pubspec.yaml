@@ -36,6 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.13
   firebase_core: ^1.14.0
+  equatable: ^2.0.3
+  bloc: ^8.0.3
+  flutter_bloc: ^8.0.1
+  authentication_repository:
+    path: packages/authentication_repository
+  flow_builder: ^0.0.6
 
 dev_dependencies:
   flutter_test:
