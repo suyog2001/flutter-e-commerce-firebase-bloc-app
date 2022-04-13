@@ -1,28 +1,32 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../constant/form_status.dart';
-import '../cubit/login_cubit.dart';
-import '../../signup/view/signup_page.dart';
 
-class LoginPage extends StatelessWidget {
-  static const String route = '/login';
-  static Page page() => MaterialPage<void>(child: LoginPage());
-  LoginPage({Key? key}) : super(key: key);
-  final _loginFormKey = GlobalKey<FormState>();
+import '../../../constant/form_status.dart';
+import '../signup.dart';
+
+class SignupPage extends StatelessWidget {
+  static const String route = '/signup';
+  static Page page() => MaterialPage<void>(child: SignupPage());
+  SignupPage({Key? key}) : super(key: key);
+  final _signupFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(
+      create: (context) => SignupCubit(
           authenticationRepository: context.read<AuthenticationRepository>()),
-      child: BlocListener<LoginCubit, LoginState>(
+      child: BlocListener<SignupCubit, SignupState>(
         listener: (context, state) {
           final currentformStatus = state.formStatus;
           if (currentformStatus is FormSubmissionFailedStatus) {
+            // Show a snackbar message on faliour
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
               ..showSnackBar(
                   SnackBar(content: Text(currentformStatus.errorMessage)));
+          } else if (currentformStatus is FormSubmmisionSuccessStatus) {
+            // pop the screen when login is Success Full
+            Navigator.pop(context);
           }
         },
         child: Scaffold(
@@ -30,19 +34,13 @@ class LoginPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
-              key: _loginFormKey,
+              key: _signupFormKey,
               child: Column(
                 children: [
                   const _EmailWidget(),
                   const _PasswordWidget(),
                   const SizedBox(height: 20),
-                  _LoginSubmitButton(loginFormKey: _loginFormKey),
-                  OutlinedButton(
-                      onPressed: () {
-                        Navigator.of(context).push<void>(
-                            MaterialPageRoute(builder: (_) => SignupPage()));
-                      },
-                      child: const Text('Signup'))
+                  _SignupSubmitButton(loginFormKey: _signupFormKey)
                 ],
               ),
             ),
@@ -53,8 +51,8 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginSubmitButton extends StatelessWidget {
-  const _LoginSubmitButton({
+class _SignupSubmitButton extends StatelessWidget {
+  const _SignupSubmitButton({
     Key? key,
     required GlobalKey<FormState> loginFormKey,
   })  : _loginFormKey = loginFormKey,
@@ -64,7 +62,7 @@ class _LoginSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<SignupCubit, SignupState>(
       buildWhen: (previous, current) =>
           (previous.formStatus != current.formStatus),
       builder: (context, state) {
@@ -74,7 +72,7 @@ class _LoginSubmitButton extends StatelessWidget {
           return ElevatedButton(
               onPressed: () {
                 if (_loginFormKey.currentState!.validate()) {
-                  context.read<LoginCubit>().onLoginSubmit();
+                  context.read<SignupCubit>().onSignupSubmit();
                 }
               },
               child: const Text('Login'));
@@ -91,7 +89,7 @@ class _PasswordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<SignupCubit, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextFormField(
@@ -102,7 +100,7 @@ class _PasswordWidget extends StatelessWidget {
             return null;
           },
           onChanged: (password) {
-            context.read<LoginCubit>().passwordChanged(password);
+            context.read<SignupCubit>().passwordChanged(password);
           },
           decoration: const InputDecoration(label: Text('Password')),
           obscureText: true,
@@ -120,7 +118,7 @@ class _EmailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<SignupCubit, SignupState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return TextFormField(
@@ -131,7 +129,7 @@ class _EmailWidget extends StatelessWidget {
             return null;
           },
           onChanged: (email) {
-            context.read<LoginCubit>().emailChanged(email);
+            context.read<SignupCubit>().emailChanged(email);
           },
           decoration: const InputDecoration(label: Text('Email')),
           keyboardType: TextInputType.emailAddress,

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import '../app/app_bloc/app_bloc.dart';
 import '../pages/home/view/home.dart';
 import '../pages/login/login.dart';
-import '../pages/signup/signup_page.dart';
+import '../pages/signup/signup.dart';
 
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      // Home Page route '/'
+      // Home Page route `/`
       case HomePage.route:
         return MaterialPageRoute(builder: (_) => HomePage());
       // Login Page route `/login`
       case LoginPage.route:
         return MaterialPageRoute(builder: (_) => LoginPage());
+      // Signup Page route `/signup`
       case SignupPage.route:
         return MaterialPageRoute(builder: (_) => SignupPage());
       default:
@@ -39,6 +40,8 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
     case AppStatus.authenticated:
       return [HomePage.page()];
     case AppStatus.unauthenticated:
-      return [LoginPage.page()];
+      return [
+        LoginPage.page(),
+      ];
   }
 }

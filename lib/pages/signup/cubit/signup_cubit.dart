@@ -1,24 +1,25 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../../constant/form_status.dart';
 
-part 'login_state.dart';
+part 'signup_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
+class SignupCubit extends Cubit<SignupState> {
   final AuthenticationRepository _authRepository;
-  LoginCubit({required AuthenticationRepository authenticationRepository})
+  SignupCubit({required AuthenticationRepository authenticationRepository})
       : _authRepository = authenticationRepository,
-        super(const LoginState());
+        super(const SignupState());
 
-  /// Checks email on every event user enters and change state accordingly
+  /// Chech email on every event user enters and change state accordingly
   void emailChanged(String value) {
     emit(
       state.copyWith(email: value, formStatus: const InitialFormStatus()),
     );
   }
 
-  /// Checks password on every event user enters and change state accordingly
+  /// Chech password on every event user enters and change state accordingly
   void passwordChanged(String password) {
     emit(
       state.copyWith(password: password, formStatus: const InitialFormStatus()),
@@ -27,11 +28,11 @@ class LoginCubit extends Cubit<LoginState> {
 
   /// Validate the form before using this funciton.
   /// Initates the login Login process
-  void onLoginSubmit() async {
+  Future<void> onSignupSubmit() async {
     if (state.formStatus is FormSubmmitingStatus) return;
     emit(state.copyWith(formStatus: FormSubmmitingStatus()));
     try {
-      await _authRepository.logInWithEmailAndPassword(
+      await _authRepository.signUp(
           email: state.email, password: state.password);
       emit(state.copyWith(formStatus: FormSubmmisionSuccessStatus()));
     } on LogInWithEmailAndPasswordFailure catch (e) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/app_bloc/app_bloc.dart';
+import '../widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   static const String route = '/';
@@ -22,12 +23,16 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
+      drawer: AppDrawer(),
       body: Align(
         alignment: const Alignment(0, -1 / 3),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CircleAvatar(backgroundImage: NetworkImage(user.photo ?? '')),
+            CircleAvatar(
+                child: user.photo == null ? Text(user.email![0]) : null,
+                backgroundImage:
+                    user.photo != null ? NetworkImage(user.photo!) : null),
             const SizedBox(height: 4),
             Text(
               user.email ?? '',
