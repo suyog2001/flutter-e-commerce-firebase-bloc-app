@@ -1,6 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_e_commerce_app/app/user_type_cubit/user_type_cubit.dart';
+import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
 import '../../../constant/form_status.dart';
 import '../cubit/login_cubit.dart';
 import '../../signup/view/signup_page.dart';
@@ -36,6 +38,7 @@ class LoginPage extends StatelessWidget {
                   const _EmailWidget(),
                   const _PasswordWidget(),
                   const SizedBox(height: 20),
+                  const _UserTypeDropDown(),
                   _LoginSubmitButton(loginFormKey: _loginFormKey),
                   OutlinedButton(
                       onPressed: () {
@@ -49,6 +52,45 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _UserTypeDropDown extends StatelessWidget {
+  const _UserTypeDropDown({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserTypeCubit, UserType>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        return DropdownButtonFormField<UserType>(
+            value: state,
+            decoration: const InputDecoration(label: Text('Type of User')),
+            items: const [
+              DropdownMenuItem(
+                child: Text(''),
+                value: UserType.none,
+              ),
+              DropdownMenuItem(
+                child: Text('Customer'),
+                value: UserType.customer,
+              ),
+              DropdownMenuItem(
+                child: Text('Seller'),
+                value: UserType.seller,
+              ),
+            ],
+            validator: (value) {
+              if (value == UserType.none) return 'Select type of User';
+              return null;
+            },
+            onChanged: (value) {
+              context.read<UserTypeCubit>().checkTypeOfUser(value!);
+            });
+      },
     );
   }
 }

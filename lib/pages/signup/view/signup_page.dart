@@ -1,7 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
 
+import '../../../app/user_type_cubit/user_type_cubit.dart';
 import '../../../constant/form_status.dart';
 import '../signup.dart';
 
@@ -14,6 +16,8 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignupCubit(
+          userTypeCubit: context.read<UserTypeCubit>(),
+          fireStoreRepository: context.read<FireStoreRepository>(),
           authenticationRepository: context.read<AuthenticationRepository>()),
       child: BlocListener<SignupCubit, SignupState>(
         listener: (context, state) {
@@ -30,7 +34,7 @@ class SignupPage extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: const Text('Login Page'), centerTitle: true),
+          appBar: AppBar(title: const Text('Signup Page'), centerTitle: true),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
@@ -39,6 +43,7 @@ class SignupPage extends StatelessWidget {
                 children: [
                   const _EmailWidget(),
                   const _PasswordWidget(),
+                  const _UserTypeDropDown(),
                   const SizedBox(height: 20),
                   _SignupSubmitButton(loginFormKey: _signupFormKey)
                 ],
@@ -77,6 +82,45 @@ class _SignupSubmitButton extends StatelessWidget {
               },
               child: const Text('Login'));
         }
+      },
+    );
+  }
+}
+
+class _UserTypeDropDown extends StatelessWidget {
+  const _UserTypeDropDown({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserTypeCubit, UserType>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        return DropdownButtonFormField<UserType>(
+            value: state,
+            decoration: const InputDecoration(label: Text('Type of User')),
+            items: const [
+              DropdownMenuItem(
+                child: Text(''),
+                value: UserType.none,
+              ),
+              DropdownMenuItem(
+                child: Text('Customer'),
+                value: UserType.customer,
+              ),
+              DropdownMenuItem(
+                child: Text('Seller'),
+                value: UserType.seller,
+              ),
+            ],
+            validator: (value) {
+              if (value == UserType.none) return 'Select type of User';
+              return null;
+            },
+            onChanged: (value) {
+              context.read<UserTypeCubit>().checkTypeOfUser(value!);
+            });
       },
     );
   }

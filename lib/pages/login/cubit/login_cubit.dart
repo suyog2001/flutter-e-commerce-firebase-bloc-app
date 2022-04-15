@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_e_commerce_app/app/user_type_cubit/user_type_cubit.dart';
+import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
 import '../../../constant/form_status.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authRepository;
-  LoginCubit({required AuthenticationRepository authenticationRepository})
-      : _authRepository = authenticationRepository,
+  LoginCubit({
+    required AuthenticationRepository authenticationRepository,
+  })  : _authRepository = authenticationRepository,
         super(const LoginState());
 
   /// Checks email on every event user enters and change state accordingly
@@ -33,6 +38,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       await _authRepository.logInWithEmailAndPassword(
           email: state.email, password: state.password);
+
       emit(state.copyWith(formStatus: FormSubmmisionSuccessStatus()));
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(state.copyWith(
