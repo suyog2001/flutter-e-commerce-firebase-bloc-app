@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_e_commerce_app/app/user_type_cubit/user_type_cubit.dart';
-import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
+import '../user_type_cubit/user_type_cubit.dart';
+import '../../data/repositories/firestore_repository.dart';
 import 'my_app_view.dart';
 import '../app_bloc/app_bloc.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             create: (_) =>
                 AppBloc(authenticationRepository: _authenticationRepository)),
         BlocProvider(create: (_) => UserTypeCubit())
-      ], child: MyAppView()),
+      ], child: const MyAppView()),
     );
   }
 }

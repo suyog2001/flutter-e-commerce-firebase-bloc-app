@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_e_commerce_app/constant/form_status.dart';
-import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
-import 'package:flutter_e_commerce_app/pages/product_add_page/add_product_form_cubit/add_product_form_cubit.dart';
+import '../../../constant/form_status.dart';
+import '../../../data/repositories/firestore_repository.dart';
+import '../add_product_form_cubit/add_product_form_cubit.dart';
 
 import '../../../app/app_bloc/app_bloc.dart';
 

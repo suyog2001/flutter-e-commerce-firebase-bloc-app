@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_e_commerce_app/app/user_type_cubit/user_type_cubit.dart';
-import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
+import '../../../app/user_type_cubit/user_type_cubit.dart';
+import '../../../data/repositories/firestore_repository.dart';
 import '../../../constant/form_status.dart';
 import '../cubit/login_cubit.dart';
 import '../../signup/view/signup_page.dart';

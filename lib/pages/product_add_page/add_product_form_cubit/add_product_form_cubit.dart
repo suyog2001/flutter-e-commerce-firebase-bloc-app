@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:flutter_e_commerce_app/app/app_bloc/app_bloc.dart';
-import 'package:flutter_e_commerce_app/constant/form_status.dart';
+import '../../../app/app_bloc/app_bloc.dart';
+import '../../../constant/form_status.dart';
 
-import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
+import '../../../data/repositories/firestore_repository.dart';
 
 part 'add_product_form_state.dart';
 

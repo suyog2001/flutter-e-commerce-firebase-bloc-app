@@ -1,39 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../app/app_bloc/app_bloc.dart';
+import '../app/user_type_cubit/user_type_cubit.dart';
+import '../pages/home/view/customer_home.dart';
 import '../pages/home/view/home.dart';
+import '../pages/home/view/seller_home.dart';
 import '../pages/login/login.dart';
-import '../pages/signup/signup.dart';
-
-class AppRoute {
-  Route? onGenerateRoute(RouteSettings routeSettings) {
-    switch (routeSettings.name) {
-      // Home Page route `/`
-      case HomePage.route:
-        return MaterialPageRoute(builder: (_) => HomePage());
-      // Login Page route `/login`
-      case LoginPage.route:
-        return MaterialPageRoute(builder: (_) => LoginPage());
-      // Signup Page route `/signup`
-      case SignupPage.route:
-        return MaterialPageRoute(builder: (_) => SignupPage());
-      default:
-        // return null;
-        // for return a error page
-        return _errorRoute();
-    }
-  }
-
-  static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(builder: (_) {
-      return const Scaffold(
-        body: Center(
-          child: Text('Error Routing see into AppRoute'),
-        ),
-      );
-    });
-  }
-}
 
 List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
   switch (state) {
@@ -42,6 +14,27 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
     case AppStatus.unauthenticated:
       return [
         LoginPage.page(),
+      ];
+  }
+}
+
+List<Page> onGenerateHomeViewPages(UserType state, List<Page<dynamic>> pages) {
+  switch (state) {
+    case UserType.customer:
+      return [CustomerHomePage.page()];
+    case UserType.seller:
+      return [
+        SellerHomePage.page(),
+      ];
+    case UserType.none:
+      // Handle this case
+      return [
+        const MaterialPage<void>(
+            child: Scaffold(
+          body: Center(
+            child: Text('Error User is none'),
+          ),
+        ))
       ];
   }
 }

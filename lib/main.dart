@@ -3,12 +3,11 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'data/repositories/firestore_repository.dart';
-import 'firebase_options.dart';
-
-import 'utility/bloc_observer.dart';
 
 import 'app/views/my_app.dart';
+import 'data/repositories/firestore_repository.dart';
+import 'firebase_options.dart';
+import 'utility/bloc_observer.dart';
 
 void main() async {
   return BlocOverrides.runZoned(

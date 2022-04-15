@@ -5,7 +5,7 @@ import '../app_bloc/app_bloc.dart';
 import '../../routes/app_route.dart';
 
 class MyAppView extends StatelessWidget {
-  MyAppView({Key? key}) : super(key: key);
+  const MyAppView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

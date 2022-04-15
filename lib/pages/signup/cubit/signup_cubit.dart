@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_e_commerce_app/data/repositories/firestore_repository.dart';
+import '../../../data/repositories/firestore_repository.dart';
 
 import '../../../app/user_type_cubit/user_type_cubit.dart';
 import '../../../constant/form_status.dart';
@@ -25,8 +25,8 @@ class SignupCubit extends Cubit<SignupState> {
         _fireStoreRepository = fireStoreRepository,
         super(const SignupState()) {
     _subscription = _userTypeCubit.stream.listen((userTypeState) {
+      // FIXME : // ! Using a Better Solution
       _userType = userTypeState;
-      print(_userType);
     });
   }
   @override

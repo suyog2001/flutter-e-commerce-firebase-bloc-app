@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../app/user_type_cubit/user_type_cubit.dart';
-import '../models/product.dart';
 
 class FireStoreRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
