@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'data/repositories/firestore_repository.dart';
 import 'firebase_options.dart';
 
 import 'utility/bloc_observer.dart';
@@ -19,6 +20,7 @@ void main() async {
       await authenticationRepository.user.first;
       runApp(MyApp(
         authenticationRepository: authenticationRepository,
+        fireStoreRepository: FireStoreRepository(),
       ));
     },
     blocObserver: AppBlocObserver(),
